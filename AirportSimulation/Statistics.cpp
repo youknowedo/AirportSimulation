@@ -2,16 +2,13 @@
 
 #include <iostream>
 
-Statistics::Statistics() : _aircraftWaitTimes({}), _longestAircraftWaitTime(-1) {}
+Statistics::Statistics() : _aircraftWaitTimes({}) {}
 
 void Statistics::addAircraftStats(const int createTime, const int currentTime)
 {
 	const int waitTime = currentTime - createTime;
 
 	_aircraftWaitTimes.push_back(waitTime);
-
-	if (waitTime > _longestAircraftWaitTime)
-		_longestAircraftWaitTime = waitTime;
 }
 
 double Statistics::averageAircraftWaitTime() const

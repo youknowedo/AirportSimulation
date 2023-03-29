@@ -3,16 +3,20 @@
 
 class Aircraft;
 
-class Runway {
+class Runway
+{
 public:
 	Runway();
 	~Runway();
 
-	std::deque<Aircraft*>& queue() { return _queue; }
-	int busyTil() const { return _busyTil; }
-	int busyTil(const int til) { return _busyTil = til; }
+	std::deque<Aircraft *> &arrivingQueue(std::deque<Aircraft *> newQueue) { return _arrivingQueue = newQueue; }
+	std::deque<Aircraft *> &arrivingQueue() { return _arrivingQueue; }
+	std::deque<Aircraft *> &departingQueue() { return _departingQueue; }
+	const int busyTil() const { return _busyTil; }
+	const int busyTil(const int til) { return _busyTil = til; }
 
 private:
-	std::deque<Aircraft*> _queue;
+	std::deque<Aircraft *> _arrivingQueue;
+	std::deque<Aircraft *> _departingQueue;
 	int _busyTil;
 };

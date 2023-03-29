@@ -55,10 +55,8 @@ EMSCRIPTEN_BINDINGS(master)
 	class_<Statistics>("Statistics")
 		.constructor<>()
 		.property("averageAircraftWaitTime", &Statistics::averageAircraftWaitTime)
-		.property("longestAircraftWaitTime", &Statistics::longestAircraftWaitTime)
 		.property("numberOfTimeUnitsRunwayBusy", &Statistics::numberOfTimeUnitsRunwayBusy)
-		.function("addAircraftStats", &Statistics::addAircraftStats)
-		.function("addToNumberOfTimeUnitsRunwayBusy", &Statistics::addToNumberOfTimeUnitsRunwayBusy);
+		.property("timeElapsedInSeconds", &Statistics::timeElapsedInSeconds);
 
 	class_<Master>("Master")
 		.constructor<>()

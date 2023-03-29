@@ -1,0 +1,12 @@
+{
+  "name": "airport-simulation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "biods.js",
+  "scripts": {
+    "dev": "nodemon --watch AirportSimulation -e cpp,h --exec \"npm run build\n",
+    "build": "emcc -lembind AirportSimulation/Aircraft.cpp AirportSimulation/Runway.cpp AirportSimulation/Statistics.cpp AirportSimulation/Master.cpp -o AirportSimulation.mjs -s ALLOW_MEMORY_GROWTH -s EXPORTED_RUNTIME_METHODS=['ccall','cwrap'] && http-server -c-1"
+  },
+  "author": "",
+  "license": "MIT"
+}

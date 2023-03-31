@@ -7,10 +7,19 @@ Aircraft::Aircraft(
 	const int createTime,
 	Runway *runway) : _startsInAir(startsInAir),
 					  _createTime(createTime),
-					  _fuel(startsInAir ? rand() % 20 : -1)
+					  _fuel(startsInAir ? rand() % 15 + 5 : -1)
 {
 	if (startsInAir)
-		runway->arrivingQueue().push_back(this);
+	{
+		int i = 0;
+		for (auto item = runway->arrivingQueue()->begin(); item != nullptr && (item->data()->fuel() < _fuel); ++item, ++i)
+		{
+			if (item->next() == nullptr)
+				break;
+		}
+
+		runway->arrivingQueue()->push(this, i);
+	}
 	else
-		runway->departingQueue().push_back(this);
+		runway->departingQueue()->pushBack(this);
 }

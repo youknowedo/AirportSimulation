@@ -15,9 +15,9 @@ double Statistics::averageAircraftWaitTime() const
 {
 	int timesAdded = 0;
 
-	for (const int aircraftWaitTime : _aircraftWaitTimes)
+	for (const int waitTime : _aircraftWaitTimes)
 	{
-		timesAdded += aircraftWaitTime;
+		timesAdded += waitTime;
 	}
 
 	return static_cast<double>(timesAdded) / static_cast<double>(_aircraftWaitTimes.size());

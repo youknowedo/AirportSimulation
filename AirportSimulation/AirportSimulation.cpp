@@ -1,4 +1,4 @@
-#include <deque>
+#include <list>
 #include <fstream>
 #include <iostream>
 
@@ -17,11 +17,20 @@ int main(int argc, char *argv[])
 	int numberOfIntervals;
 	std::cin >> numberOfIntervals;
 
-	master.nextIntervals(numberOfIntervals);
+	auto intervals = master.nextIntervals(numberOfIntervals);
+	std::ofstream statFile;
+	statFile.open("example.csv");
+	for (int i = 0; i < intervals.size(); i++)
+	{
+		statFile << i << "," << intervals[i].queueSize() << "," << intervals[i].newPlane() << "," << intervals[i].message() << "\n";
+	}
+	statFile.close();
 
 	auto stats = master.stats();
 	std::cout << "Time elapsed: " << stats.timeElapsedInSeconds() << "\n";
 	std::cout << "Average wait: " << stats.averageAircraftWaitTime() << "\n";
 	std::cout << "Runway busy: " << stats.numberOfTimeUnitsRunwayBusy() / static_cast<double>(numberOfIntervals) * 100
 			  << "%\n";
+	std::cout << "Planes crashed: " << stats.numberOfAircraftCrashed() << "\n";
+	std::cout << "Success rate: " << (100 - ((double)stats.numberOfAircraftCrashed() / (double)numberOfIntervals) * 100) << "%\n";
 }

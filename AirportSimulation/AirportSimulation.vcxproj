@@ -136,6 +136,7 @@
   <ItemGroup>
     <ClInclude Include="Aircraft.h" />
     <ClInclude Include="Master.h" />
+    <ClInclude Include="Queue.h" />
     <ClInclude Include="Runway.h" />
     <ClInclude Include="Statistics.h" />
   </ItemGroup>

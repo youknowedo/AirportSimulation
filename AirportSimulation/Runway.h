@@ -1,5 +1,6 @@
 ﻿#pragma once
-#include <deque>
+#include <list>
+#include "Queue.h"
 
 class Aircraft;
 
@@ -9,14 +10,14 @@ public:
 	Runway();
 	~Runway();
 
-	std::deque<Aircraft *> &arrivingQueue(std::deque<Aircraft *> newQueue) { return _arrivingQueue = newQueue; }
-	std::deque<Aircraft *> &arrivingQueue() { return _arrivingQueue; }
-	std::deque<Aircraft *> &departingQueue() { return _departingQueue; }
+	Queue<Aircraft *> *arrivingQueue(Queue<Aircraft *> *newQueue) { return _arrivingQueue = newQueue; }
+	Queue<Aircraft *> *arrivingQueue() { return _arrivingQueue; }
+	Queue<Aircraft *> *departingQueue() { return _departingQueue; }
 	const int busyTil() const { return _busyTil; }
 	const int busyTil(const int til) { return _busyTil = til; }
 
 private:
-	std::deque<Aircraft *> _arrivingQueue;
-	std::deque<Aircraft *> _departingQueue;
+	Queue<Aircraft *> *_arrivingQueue;
+	Queue<Aircraft *> *_departingQueue;
 	int _busyTil;
 };

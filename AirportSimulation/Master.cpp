@@ -23,26 +23,25 @@ Interval Master::nextInterval()
         newPlane = r;
     }
 
-    for (size_t i = 0; i < _runway->arrivingQueue().size(); i++)
+    if (!_runway->arrivingQueue()->empty())
     {
-        auto aircraft = _runway->arrivingQueue()[i];
-
-        int newFuel = aircraft->decreaseFuel();
-        if (newFuel <= 0)
+        int i = 0;
+        auto item = _runway->arrivingQueue()->begin();
+        do
         {
-            std::deque<Aircraft *> newQueue;
+            int newFuel = (item)->data()->decreaseFuel();
 
-            for (size_t j = 0; j < _runway->arrivingQueue().size(); j++)
+            if (newFuel <= 0)
             {
-                auto a = _runway->arrivingQueue()[j];
+                item = item->prev();
 
-                if (j != i)
-                    newQueue.push_back(a);
+                delete (*_runway->arrivingQueue())[i]->data();
+                _runway->arrivingQueue()->pop(i);
+                _stats->addCrashedAircraft();
             }
 
-            // TODO: Make work. Throws error "Segmentation fault (core dumped)"
-            // _runway->arrivingQueue(newQueue);
-        }
+            ++i;
+        } while (item != nullptr && item->next() != nullptr && ++item);
     }
 
     if (_runway->busyTil() != -1)
@@ -52,33 +51,31 @@ Interval Master::nextInterval()
             message = "Runway free. ";
             _runway->busyTil(-1);
 
-            if (!_runway->arrivingQueue().empty())
+            if (!_runway->arrivingQueue()->empty())
             {
-                delete _runway->arrivingQueue().front();
-                _runway->arrivingQueue().pop_front();
+                _runway->arrivingQueue()->popFront();
             }
-            else
+            else if (!_runway->departingQueue()->empty())
             {
-                delete _runway->departingQueue().front();
-                _runway->departingQueue().pop_front();
+                _runway->departingQueue()->popFront();
             }
         }
     }
-    else if (!_runway->arrivingQueue().empty())
+    else if (!_runway->arrivingQueue()->empty())
     {
         _runway->busyTil(_interval + 3);
-        _stats->addAircraftStats(_runway->arrivingQueue().front()->createTime(), _interval);
+        _stats->addAircraftStats(_runway->arrivingQueue()->begin()->data()->createTime(), _interval);
     }
-    else if (!_runway->departingQueue().empty())
+    else if (!_runway->departingQueue()->empty())
     {
         _runway->busyTil(_interval + 3);
-        _stats->addAircraftStats(_runway->departingQueue().front()->createTime(), _interval);
+        _stats->addAircraftStats(_runway->departingQueue()->begin()->data()->createTime(), _interval);
     }
 
     if (_runway->busyTil() != -1)
         _stats->addToNumberOfTimeUnitsRunwayBusy();
 
-    return Interval(newPlane, _runway->arrivingQueue().size(), message);
+    return Interval(newPlane, _runway->arrivingQueue()->size(), message);
 }
 
 std::vector<Interval> Master::nextIntervals(int intervals)

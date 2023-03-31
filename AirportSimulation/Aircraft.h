@@ -2,6 +2,7 @@
 #include <list>
 #include "Runway.h"
 
+/// @brief Holds data for every aircraft to be used in the statistics
 class Aircraft
 {
 public:

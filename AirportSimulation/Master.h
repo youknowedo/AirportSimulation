@@ -6,9 +6,16 @@
 #include "Runway.h"
 #include "Statistics.h"
 
+/// @brief Holds data about an interval
 class Interval
 {
 public:
+	/// @brief Creates a new instance of the Interval class
+	/// @param newPlane Wether or not it spawned a new aircraft that interval, and if that aircraft
+	/// 				spawned in the air or on the ground. [-1: No aircraft, 0: Spawned on ground,
+	///					1: Spawned in the air]
+	/// @param queueSize The total size of the queues that interval
+	/// @param message Any other additional notes
 	Interval(int newPlane, int queueSize, std::string message) : _newPlane(newPlane), _queueSize(queueSize),
 																 _message(message) {}
 
@@ -22,6 +29,12 @@ private:
 	std::string _message;
 };
 
+/**
+ * Pulled this part of the
+ */
+/// @brief The master class of the simulation. Holds the runway, the statistics, and the number
+/// 	   of intervals that had been simulated. Also holds the functions that simulate either
+///		   one or multiple intervals.
 class Master
 {
 public:
@@ -39,6 +52,7 @@ private:
 	int _interval;
 };
 
+// Binds this projects classes to JavaScript classes when building to WebAssembly
 #ifdef __EMSCRIPTEN__
 #include <emscripten/bind.h>
 using namespace emscripten;

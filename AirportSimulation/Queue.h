@@ -1,13 +1,37 @@
+/**
+ * Did inline definitions for all of the class-functions since having them outside would
+ * give an error (LINK2019). It is likely it has something to do with the fact that the
+ * classes are using templates.
+ * Also had both classes in one file for ease of use when I want to use these classes in
+ * the future.
+ */
 #pragma once
 
+/**
+ * Forward-declaring the Queue class because both Queue and QItem depend on each other.
+ * Prevents circular class dependency
+ */
 template <class T>
 class Queue;
 
+/// @brief The items in a Queue. Holds the data, and pointers to the next and previous items
+/// @tparam T The class of the data that the item holds
 template <class T>
 class QItem
 {
 public:
-	QItem(T data, Queue<T> *queue, QItem<T> *next = nullptr, QItem<T> *prev = nullptr) : _data(data), _next(next), _previous(prev), _queue(queue) {}
+	/// @brief Creates a new instance of the QItem class
+	/// @param data The data that the item should hold
+	/// @param queue The queue that this item belongs to
+	/// @param next A pointer to the next item in the queue
+	/// @param prev A pointer to the previous item in the queue
+	QItem(T data,
+		  Queue<T> *queue,
+		  QItem<T> *next = nullptr,
+		  QItem<T> *prev = nullptr) : _data(data),
+									  _next(next),
+									  _previous(prev),
+									  _queue(queue) {}
 
 	T data() const { return _data; }
 	QItem<T> *next() const { return _next; }
@@ -47,14 +71,16 @@ template <class T>
 class Queue
 {
 public:
+	/// @brief Creates a new instance of the Queue class
 	Queue() : _front(nullptr), _back(nullptr), _size(0){};
 
-	QItem<T> *begin() { return _front; }
-	QItem<T> *end() { return _back; }
+	QItem<T> *front() { return _front; }
+	QItem<T> *back() { return _back; }
 
 	bool empty() { return (_front == nullptr); }
 	int size() const { return _size; }
 
+	/// @brief Removes the first item in the queue
 	void popFront()
 	{
 		auto newFront = _front->next();
@@ -66,6 +92,7 @@ public:
 		_front = &(*newFront);
 		--_size;
 	}
+	/// @brief Removes the last item in the queue
 	void popBack()
 	{
 		auto newBack = _back->prev();
@@ -77,6 +104,8 @@ public:
 		_back = &(*newBack);
 		--_size;
 	}
+	/// @brief Removes the i:th item in the queue
+	/// @param i The index of the item to be removed
 	void pop(int i)
 	{
 		QItem<T> *toDelete = this->operator[](i);
@@ -98,6 +127,8 @@ public:
 		--_size;
 	}
 
+	/// @brief Adds an item to the front of the queue
+	/// @param newData The data of the new item
 	void pushFront(T newData)
 	{
 		if (this->empty())
@@ -118,6 +149,8 @@ public:
 		}
 		++_size;
 	}
+	/// @brief Adds an item to the last of the queue
+	/// @param newData The data of the new item
 	void pushBack(T newData)
 	{
 		if (this->empty())
@@ -138,6 +171,9 @@ public:
 		}
 		++_size;
 	}
+	/// @brief Adds an item to the last of the queue
+	/// @param newData The data of the new item
+	/// @param i The index that the new item should have
 	void push(T newData, int i)
 	{
 		if (i == 0)
@@ -167,6 +203,9 @@ public:
 		++_size;
 	}
 
+	/// @brief Indexes the queue by index
+	/// @param i The index of the item
+	/// @return The i:th item in the queue
 	QItem<T> *operator[](int i)
 	{
 		QItem<T> *returnItem = _front;

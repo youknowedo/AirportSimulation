@@ -18,9 +18,6 @@
     <ClCompile Include="AirportSimulation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Runway.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Aircraft.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -1,12 +1,14 @@
 ﻿#pragma once
 #include <vector>
 
+/// @brief Holds the simulation statistics
 class Statistics
 {
 public:
-	Statistics();
+	/// @brief Creates a new instance of the Statistics class
+	Statistics() : _aircraftWaitTimes({}) {}
 
-	void addAircraftStats(int createTime, int currentTime);
+	void addWaitTimeStats(int createTime, int currentTime);
 
 	double averageAircraftWaitTime() const;
 

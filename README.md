@@ -3,6 +3,7 @@ An airport simulator made for the Programmering 2 class in Göteborgsregionens T
 
 ## Getting started
 - Get the code:
+  
   ```
   git clone https://github.com/youknowedo/AirportSimulation.git
   ```
